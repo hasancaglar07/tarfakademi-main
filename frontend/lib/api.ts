@@ -1,4 +1,27 @@
-const API_URL = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:8000/api/v1';
+const stripTrailingSlash = (value: string) => value.replace(/\/$/, '')
+
+const SITE_URL =
+  process.env.NEXT_PUBLIC_SITE_URL || process.env.SITE_URL || 'https://tarfakademi.com'
+
+const API_URL = (() => {
+  const configuredUrl = process.env.NEXT_PUBLIC_API_URL || process.env.API_URL
+  if (configuredUrl) {
+    return stripTrailingSlash(configuredUrl)
+  }
+
+  const defaultUrl =
+    process.env.NODE_ENV === 'production'
+      ? `${stripTrailingSlash(SITE_URL)}/api/v1`
+      : 'http://localhost:8000/api/v1'
+
+  if (process.env.NODE_ENV === 'production') {
+    console.warn(
+      `[api] NEXT_PUBLIC_API_URL tanımlanmadı, varsayılan olarak ${defaultUrl} kullanılacak.`
+    )
+  }
+
+  return defaultUrl
+})()
 
 export interface ApiResponse<T> {
   success: boolean;
@@ -117,23 +140,23 @@ const defaultSettings: Settings = {
 }
 
 async function fetchApi<T>(endpoint: string, locale: string = 'tr'): Promise<T> {
-  const url = `${API_URL}${endpoint}?locale=${locale}`;
-  
+  const url = `${API_URL}${endpoint}?locale=${locale}`
+
   const response = await fetch(url, {
     next: { revalidate: 60 }, // Cache for 60 seconds
-  });
+  })
 
   if (!response.ok) {
-    throw new Error(`API request failed: ${response.statusText}`);
+    throw new Error(`API request failed: ${response.statusText}`)
   }
 
-  const result: ApiResponse<T> = await response.json();
-  
+  const result: ApiResponse<T> = await response.json()
+
   if (!result.success) {
-    throw new Error(result.message || 'API request failed');
+    throw new Error(result.message || 'API request failed')
   }
 
-  return result.data;
+  return result.data
 }
 
 export const api = {
