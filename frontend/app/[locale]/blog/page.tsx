@@ -73,10 +73,10 @@ export default async function BlogPage({
                     <Card className="overflow-hidden hover:shadow-lg transition-all h-full flex flex-col">
                   <div className="relative h-48 w-full bg-muted overflow-hidden">
                     <Image
-                      src={resolveImageSrc(post.featured_image, getDefaultImage())}
+                      src={getDefaultImage()}
                       alt={post.title}
                       fill
-                      className={post.featured_image && post.featured_image.trim() !== '' ? 'object-cover' : 'object-contain p-6'}
+                      className="object-contain p-6"
                     />
                   </div>
                   <CardHeader>

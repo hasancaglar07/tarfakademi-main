@@ -166,7 +166,7 @@ export function Hero({ locale, data }: HeroProps) {
       <section className="relative overflow-hidden bg-gradient-to-br from-secondary via-background to-primary/10">
         <div className="absolute inset-y-0 left-0 w-1/3 bg-gradient-to-r from-primary/10 to-transparent pointer-events-none" />
         <div className="absolute -top-24 right-0 h-72 w-72 rounded-full bg-primary/20 blur-3xl" />
-        <div className="container relative z-10 py-20 lg:py-28">
+        <div className="container relative z-10 pt-12 pb-20 lg:pt-16 lg:pb-28">
           <div className="grid items-center gap-16 lg:grid-cols-2">
             <StaggerContainer className="space-y-8">
               <StaggerItem>

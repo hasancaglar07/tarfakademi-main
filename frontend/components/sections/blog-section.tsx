@@ -92,14 +92,10 @@ export function BlogSection({ locale, posts, categories = [] }: BlogSectionProps
           {/* Image */}
           <div className="relative h-48 w-full overflow-hidden rounded-t-lg bg-muted">
             <Image
-              src={resolveImageSrc(post.featured_image, getDefaultImage())}
+              src={getDefaultImage()}
               alt={post.title}
               fill
-              className={`transition-transform duration-500 ${
-                post.featured_image && post.featured_image.trim() !== ''
-                  ? 'object-cover group-hover:scale-110'
-                  : 'object-contain p-6'
-              }`}
+              className="object-contain p-6 transition-transform duration-500"
             />
           </div>
 
