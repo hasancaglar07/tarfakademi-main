@@ -1,6 +1,6 @@
 'use client'
 
-import { useEffect, useState } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import Link from 'next/link'
 import Image from 'next/image'
 import { AnimatePresence, motion } from 'framer-motion'
@@ -46,9 +46,37 @@ export function Header({ locale, settings }: HeaderProps) {
   const [activeDropdown, setActiveDropdown] = useState<string | null>(null)
   const [hoveredNav, setHoveredNav] = useState<string | null>(null)
   const [isMounted, setIsMounted] = useState(false)
+  const dropdownCloseTimeout = useRef<ReturnType<typeof setTimeout> | null>(null)
+
+  const clearDropdownTimeout = () => {
+    if (dropdownCloseTimeout.current) {
+      clearTimeout(dropdownCloseTimeout.current)
+      dropdownCloseTimeout.current = null
+    }
+  }
+
+  const openDropdown = (label: string) => {
+    clearDropdownTimeout()
+    setActiveDropdown(label)
+    setHoveredNav(label)
+  }
+
+  const scheduleCloseDropdown = (label: string) => {
+    clearDropdownTimeout()
+    dropdownCloseTimeout.current = setTimeout(() => {
+      setActiveDropdown((current) => (current === label ? null : current))
+      setHoveredNav((current) => (current === label ? null : current))
+    }, 120)
+  }
 
   useEffect(() => {
     setIsMounted(true)
+  }, [])
+
+  useEffect(() => {
+    return () => {
+      clearDropdownTimeout()
+    }
   }, [])
 
   useEffect(() => {
@@ -395,17 +423,17 @@ export function Header({ locale, settings }: HeaderProps) {
           }
 
           return (
-            <motion.div
-              layout
-              key={item.label}
-              className={cn(
-                'group',
+	            <motion.div
+	              layout
+	              key={item.label}
+	              className={cn(
+	                'group',
                 isDesktop
                   ? 'relative'
-                  : 'overflow-hidden rounded-3xl border border-white/15 bg-[hsl(var(--background)_/_0.88)] shadow-[0_30px_80px_rgba(15,23,42,0.16)] backdrop-blur-2xl'
-              )}
-              {...(isDesktop
-                ? {
+	                  : 'overflow-hidden rounded-3xl border border-white/15 bg-[hsl(var(--background)_/_0.88)] shadow-[0_30px_80px_rgba(15,23,42,0.16)] backdrop-blur-2xl'
+	              )}
+	              {...(isDesktop
+	                ? {
                     initial: { opacity: 0, y: 12 },
                     animate: { opacity: 1, y: 0 },
                     transition: { delay: 0.05 * index, duration: 0.3 },
@@ -413,17 +441,15 @@ export function Header({ locale, settings }: HeaderProps) {
                 : {})}
               onMouseEnter={() => {
                 if (!isDesktop) return
-                setActiveDropdown(item.label)
-                setHoveredNav(item.label)
+                openDropdown(item.label)
               }}
               onMouseLeave={() => {
                 if (!isDesktop) return
-                setActiveDropdown((current) => (current === item.label ? null : current))
-                setHoveredNav((current) => (current === item.label ? null : current))
+                scheduleCloseDropdown(item.label)
               }}
-            >
-              <button
-                type="button"
+	            >
+	              <button
+	                type="button"
                 className={cn(
                   'group inline-flex w-full items-center justify-between gap-2 text-sm font-semibold transition-all',
                   isDesktop
@@ -432,16 +458,16 @@ export function Header({ locale, settings }: HeaderProps) {
                 )}
                 onClick={() => {
                   if (isDesktop) return
-                  setActiveDropdown((current) => (current === item.label ? null : item.label))
-                }}
-                {...(isDesktop
-                  ? {
-                      onMouseEnter: () => setHoveredNav(item.label),
-                      onMouseLeave: () =>
-                        setHoveredNav((current) => (current === item.label ? null : current)),
-                    }
-                  : {})}
-              >
+	                  setActiveDropdown((current) => (current === item.label ? null : item.label))
+	                }}
+	                {...(isDesktop
+	                  ? {
+	                      onMouseEnter: () => setHoveredNav(item.label),
+	                      onMouseLeave: () =>
+	                        setHoveredNav((current) => (current === item.label ? null : current)),
+	                    }
+	                  : {})}
+	              >
                 {isDesktop && hoveredNav === item.label && (
                   <motion.span
                     layoutId="navHighlight"
@@ -458,16 +484,24 @@ export function Header({ locale, settings }: HeaderProps) {
                 />
               </button>
 
-              {isDesktop ? (
-                <AnimatePresence>
-                  {activeDropdown === item.label && (
-                    <motion.div
-                      initial={{ opacity: 0, y: 10, scale: 0.97 }}
-                      animate={{ opacity: 1, y: 0, scale: 1 }}
-                      exit={{ opacity: 0, y: 6, scale: 0.97 }}
-                      transition={{ duration: 0.2 }}
-                      className="absolute left-1/2 top-full z-20 mt-4 w-[360px] -translate-x-1/2 rounded-3xl border border-white/30 bg-white/90 p-5 text-foreground shadow-[0_30px_90px_rgba(15,23,42,0.35)] backdrop-blur-[22px]"
-                    >
+	                {isDesktop ? (
+	                  <AnimatePresence>
+	                    {activeDropdown === item.label && (
+	                      <motion.div
+	                        initial={{ opacity: 0, y: 10, scale: 0.97 }}
+	                        animate={{ opacity: 1, y: 0, scale: 1 }}
+	                        exit={{ opacity: 0, y: 6, scale: 0.97 }}
+	                        transition={{ duration: 0.2 }}
+	                        className="absolute left-1/2 top-full z-20 mt-4 w-[360px] -translate-x-1/2 rounded-3xl border border-white/30 bg-white/90 p-5 text-foreground shadow-[0_30px_90px_rgba(15,23,42,0.35)] backdrop-blur-[22px]"
+                        onMouseEnter={() => {
+                          if (!isDesktop) return
+                          openDropdown(item.label)
+                        }}
+                        onMouseLeave={() => {
+                          if (!isDesktop) return
+                          scheduleCloseDropdown(item.label)
+                        }}
+	                      >
                       {item.description && (
                         <p className="mb-3 text-xs uppercase tracking-[0.2em] text-muted-foreground">
                           {item.description}
