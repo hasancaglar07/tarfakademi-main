@@ -4,6 +4,8 @@ import './globals.css'
 import { buildPageMetadata } from '@/lib/seo'
 import { normalizeLocale, isSupportedLocale, type SupportedLocale } from '@/lib/i18n'
 
+export const dynamic = 'force-dynamic'
+
 const inter = Inter({ subsets: ['latin'], variable: '--font-inter' })
 
 export const metadata = {
@@ -16,6 +18,9 @@ export const metadata = {
     ],
     apple: '/apple-touch-icon.png',
   },
+}
+
+export const viewport = {
   themeColor: '#FF8C00',
 }
 

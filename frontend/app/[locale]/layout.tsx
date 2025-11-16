@@ -1,5 +1,5 @@
 import type { Metadata } from 'next'
-import { normalizeLocale, isSupportedLocale, SUPPORTED_LOCALES } from '@/lib/i18n'
+import { normalizeLocale, isSupportedLocale } from '@/lib/i18n'
 import { notFound } from 'next/navigation'
 import { PageTransition } from '@/components/ui/page-transition'
 import { buildPageMetadata } from '@/lib/seo'
@@ -24,10 +24,6 @@ export default async function LocaleLayout({
       {children}
     </PageTransition>
   )
-}
-
-export function generateStaticParams() {
-  return SUPPORTED_LOCALES.map((locale) => ({ locale }))
 }
 
 export async function generateMetadata({
