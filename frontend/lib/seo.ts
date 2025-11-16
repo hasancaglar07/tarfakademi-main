@@ -5,7 +5,7 @@ const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL || 'https://tarfakademi.com'
 
 export const siteSeoConfig = {
   siteName: 'TARF Akademi',
-  defaultImage: '/img/og-default.png',
+  defaultImage: '/img/tarf.png',
   locales: {
     tr: {
       title: 'TARF Akademi · Bilim, teknoloji ve etik üretim ekosistemi',

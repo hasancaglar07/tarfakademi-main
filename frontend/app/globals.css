@@ -221,6 +221,33 @@
   .animate-scale-in {
     animation: scale-in 0.5s ease-out;
   }
+
+  /* Disable costly keyframe effects when the user or viewport can't handle them */
+  @media (prefers-reduced-motion: reduce) {
+    html {
+      scroll-behavior: auto;
+    }
+
+    *, *::before, *::after {
+      animation-duration: 0.01ms !important;
+      animation-iteration-count: 1 !important;
+      transition-duration: 0.01ms !important;
+      scroll-behavior: auto !important;
+    }
+  }
+
+  @media (max-width: 768px) {
+    .animation-wrapper,
+    .animate-fade-in,
+    .animate-slide-up,
+    .animate-slide-in-left,
+    .animate-slide-in-right,
+    .animate-scale-in {
+      animation: none !important;
+      opacity: 1 !important;
+      transform: none !important;
+    }
+  }
   
   /* Gradient backgrounds */
   .gradient-primary {

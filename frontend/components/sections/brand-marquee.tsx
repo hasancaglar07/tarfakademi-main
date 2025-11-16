@@ -2,6 +2,7 @@
 
 import Image, { type StaticImageData } from 'next/image'
 import { motion } from 'framer-motion'
+import { useShouldReduceMotion } from '@/lib/hooks/use-reduced-motion'
 import logo1 from '@/assets/1.png'
 import logo2 from '@/assets/2.png'
 import logo3 from '@/assets/3.png'
@@ -59,7 +60,8 @@ const shimmerVariants = {
 type BrandMarqueeVariant = 'default' | 'overlay'
 
 export function BrandMarquee({ locale, variant = 'default' }: { locale: string; variant?: BrandMarqueeVariant }) {
-  const displayLogos = [...logos, ...logos]
+  const shouldReduceMotion = useShouldReduceMotion()
+  const displayLogos = shouldReduceMotion ? logos : [...logos, ...logos]
 
   const helper =
     locale === 'tr'
@@ -98,19 +100,41 @@ export function BrandMarquee({ locale, variant = 'default' }: { locale: string; 
           {helper}
         </div>
         <div className={frameClass}>
-          <motion.div
-            className="pointer-events-none absolute inset-0 rounded-[inherit] bg-[linear-gradient(115deg,rgba(255,255,255,0.52),rgba(255,255,255,0.18),rgba(255,255,255,0.52))]"
-            variants={shimmerVariants}
-            animate="animate"
-          />
-          <MarqueeRow logos={displayLogos} />
+          {shouldReduceMotion ? (
+            <div className="pointer-events-none absolute inset-0 rounded-[inherit] bg-[linear-gradient(115deg,rgba(255,255,255,0.4),rgba(255,255,255,0.15),rgba(255,255,255,0.4))]" />
+          ) : (
+            <motion.div
+              className="pointer-events-none absolute inset-0 rounded-[inherit] bg-[linear-gradient(115deg,rgba(255,255,255,0.52),rgba(255,255,255,0.18),rgba(255,255,255,0.52))]"
+              variants={shimmerVariants}
+              animate="animate"
+            />
+          )}
+          <MarqueeRow logos={displayLogos} shouldReduceMotion={shouldReduceMotion} />
         </div>
       </div>
     </section>
   )
 }
 
-function MarqueeRow({ logos }: { logos: Array<{ src: StaticImageData; alt: string }> }) {
+function MarqueeRow({
+  logos,
+  shouldReduceMotion,
+}: {
+  logos: Array<{ src: StaticImageData; alt: string }>
+  shouldReduceMotion: boolean
+}) {
+  if (shouldReduceMotion) {
+    return (
+      <div className="flex gap-6 overflow-x-auto px-6 py-2 snap-x snap-mandatory" style={{ WebkitOverflowScrolling: 'touch' }}>
+        {logos.map((logo, index) => (
+          <div key={index} className="snap-center flex-shrink-0">
+            <LogoCard logo={logo} />
+          </div>
+        ))}
+      </div>
+    )
+  }
+
   return (
     <div
       className="overflow-hidden"
