@@ -1,7 +1,6 @@
 'use client'
 
 import Image, { type StaticImageData } from 'next/image'
-import { motion } from 'framer-motion'
 import logo1 from '@/assets/1.png'
 import logo2 from '@/assets/2.png'
 import logo3 from '@/assets/3.png'
@@ -33,9 +32,8 @@ const logos = [
 type BrandMarqueeVariant = 'default' | 'overlay'
 
 export function BrandMarquee({ locale, variant = 'default' }: { locale: string; variant?: BrandMarqueeVariant }) {
-  // Anasayfadeki kayan logolar için animasyonu her zaman açık tut
-  const shouldReduceMotion = false
-  const displayLogos = shouldReduceMotion ? logos : [...logos, ...logos]
+  // Kayan logo satırı için logoları iki kez tekrar ederek kesintisiz bir akış oluşturuyoruz
+  const displayLogos = [...logos, ...logos]
 
   const helper =
     locale === 'tr'
@@ -74,21 +72,8 @@ export function BrandMarquee({ locale, variant = 'default' }: { locale: string; 
           {helper}
         </div>
         <div className={frameClass}>
-          {shouldReduceMotion ? (
-            <div className="pointer-events-none absolute inset-0 rounded-[inherit] bg-[linear-gradient(115deg,rgba(255,255,255,0.4),rgba(255,255,255,0.15),rgba(255,255,255,0.4))]" />
-          ) : (
-            <motion.div
-              className="pointer-events-none absolute inset-0 rounded-[inherit] bg-[linear-gradient(115deg,rgba(255,255,255,0.52),rgba(255,255,255,0.18),rgba(255,255,255,0.52))]"
-              animate={{ backgroundPosition: ['0% 50%', '100% 50%'] }}
-              transition={{
-                repeat: Infinity,
-                repeatType: 'mirror',
-                duration: 10,
-                ease: 'linear',
-              }}
-            />
-          )}
-          <MarqueeRow logos={displayLogos} shouldReduceMotion={shouldReduceMotion} />
+          <div className="pointer-events-none absolute inset-0 rounded-[inherit] bg-[linear-gradient(115deg,rgba(255,255,255,0.52),rgba(255,255,255,0.18),rgba(255,255,255,0.52))] brand-marquee-shimmer" />
+          <MarqueeRow logos={displayLogos} />
         </div>
       </div>
     </section>
@@ -97,45 +82,22 @@ export function BrandMarquee({ locale, variant = 'default' }: { locale: string; 
 
 function MarqueeRow({
   logos,
-  shouldReduceMotion,
 }: {
   logos: Array<{ src: StaticImageData; alt: string }>
-  shouldReduceMotion: boolean
 }) {
-  if (shouldReduceMotion) {
-    return (
-      <div className="flex gap-6 overflow-x-auto px-6 py-2 snap-x snap-mandatory" style={{ WebkitOverflowScrolling: 'touch' }}>
-        {logos.map((logo, index) => (
-          <div key={index} className="snap-center flex-shrink-0">
-            <LogoCard logo={logo} />
-          </div>
-        ))}
-      </div>
-    )
-  }
-
   return (
     <div
-      className="overflow-hidden"
+      className="overflow-hidden brand-marquee-mask"
       style={{
         WebkitMaskImage: 'linear-gradient(to right, transparent, black 15%, black 85%, transparent)',
         maskImage: 'linear-gradient(to right, transparent, black 15%, black 85%, transparent)',
       }}
     >
-      <motion.div
-        className="flex min-w-[200%] items-center gap-10 px-8"
-        animate={{ x: ['0%', '-50%'] }}
-        transition={{
-          repeat: Infinity,
-          repeatType: 'loop',
-          duration: 16,
-          ease: 'linear',
-        }}
-      >
+      <div className="flex min-w-[200%] items-center gap-10 px-8 brand-marquee-track">
         {logos.map((logo, index) => (
           <LogoCard key={index} logo={logo} />
         ))}
-      </motion.div>
+      </div>
     </div>
   )
 }
