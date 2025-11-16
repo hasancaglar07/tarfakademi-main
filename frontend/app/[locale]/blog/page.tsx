@@ -10,6 +10,7 @@ import Link from 'next/link'
 import { normalizeLocale } from '@/lib/i18n'
 import { Animate, StaggerContainer, StaggerItem, AnimatedCard } from '@/components/ui/animate'
 import { buildPageMetadata } from '@/lib/seo'
+import { getDefaultImage, resolveImageSrc } from '@/lib/images'
 
 export async function generateMetadata({
   params,
@@ -72,7 +73,7 @@ export default async function BlogPage({
                     <Card className="overflow-hidden hover:shadow-lg transition-all h-full flex flex-col">
                   <div className="relative h-48 w-full bg-muted overflow-hidden">
                     <Image
-                      src={post.featured_image && post.featured_image.trim() !== '' ? post.featured_image : '/img/tarf.png'}
+                      src={resolveImageSrc(post.featured_image, getDefaultImage())}
                       alt={post.title}
                       fill
                       className={post.featured_image && post.featured_image.trim() !== '' ? 'object-cover' : 'object-contain p-6'}

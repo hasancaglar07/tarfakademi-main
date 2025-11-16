@@ -170,25 +170,25 @@ export function Hero({ locale, data }: HeroProps) {
           <div className="grid items-center gap-16 lg:grid-cols-2">
             <StaggerContainer className="space-y-8">
               <StaggerItem>
-                <div className="inline-flex items-center gap-2 rounded-full border border-border/50 bg-background/70 px-4 py-1 text-xs font-semibold uppercase tracking-[0.3em] text-muted-foreground">
+                <div className="inline-flex items-center gap-2 rounded-full border border-border/50 bg-background/70 px-4 py-1 text-xs font-semibold uppercase tracking-[0.3em] text-muted-foreground mx-auto lg:mx-0">
                   <ShieldCheck className="h-3.5 w-3.5 text-primary" />
                   {content.eyebrow}
                 </div>
               </StaggerItem>
 
             <StaggerItem>
-              <div className="space-y-5">
+              <div className="space-y-5 max-w-2xl mx-auto lg:mx-0 text-center lg:text-left text-balance">
                 <h1 className="text-4xl font-bold leading-tight text-foreground sm:text-5xl lg:text-[56px]">
                   {content.title || defaultContent.en.title}
                 </h1>
-                <p className="text-lg text-muted-foreground">
+                <p className="text-lg text-muted-foreground leading-relaxed">
                   {content.subtitle || defaultContent.en.subtitle}
                 </p>
               </div>
             </StaggerItem>
 
             <StaggerItem>
-              <div className="flex flex-col gap-4 sm:flex-row">
+              <div className="flex flex-col gap-4 sm:flex-row items-center sm:items-start justify-center sm:justify-start">
                 <Link href={(content.primary_cta_href as string) || '#'}>
                   <Button size="lg">
                     {content.primary_cta_label || 'Başla'}

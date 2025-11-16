@@ -85,29 +85,31 @@ export function StatsShowcase({
           </div>
         </Animate>
 
-        <div className="grid gap-4 md:grid-cols-2 xl:grid-cols-5">
-          {stats.map((stat, index) => {
-            const Icon = stat.icon
-            return (
-              <Card
-                key={stat.label}
-                className="animation-wrapper animate-slide-up p-6 bg-background/80 backdrop-blur border-primary/10 hover:-translate-y-1 hover:border-primary/40 transition-all"
-                style={{ animationDelay: `${index * 0.06}s` }}
-              >
-                <div className="flex items-center gap-3 mb-4">
-                  <div className="rounded-2xl bg-primary/10 p-2 text-primary">
-                    <Icon className="h-5 w-5" />
+        <Animate variant="slideUp" delay={0.1}>
+          <div className="grid gap-4 md:grid-cols-2 xl:grid-cols-5">
+            {stats.map((stat, index) => {
+              const Icon = stat.icon
+              return (
+                <Card
+                  key={stat.label}
+                  className="animation-wrapper animate-slide-up p-6 bg-background/80 backdrop-blur border-primary/10 hover:-translate-y-1 hover:border-primary/40 transition-all"
+                  style={{ animationDelay: `${index * 0.06}s` }}
+                >
+                  <div className="flex items-center gap-3 mb-4">
+                    <div className="rounded-2xl bg-primary/10 p-2 text-primary">
+                      <Icon className="h-5 w-5" />
+                    </div>
+                    <div className="text-xs uppercase tracking-wide text-muted-foreground">
+                      {stat.label}
+                    </div>
                   </div>
-                  <div className="text-xs uppercase tracking-wide text-muted-foreground">
-                    {stat.label}
-                  </div>
-                </div>
-                <div className="text-4xl font-bold mb-2">{stat.value || 0}</div>
-                <p className="text-sm text-muted-foreground">{stat.description}</p>
-              </Card>
-            )
-          })}
-        </div>
+                  <div className="text-4xl font-bold mb-2">{stat.value || 0}</div>
+                  <p className="text-sm text-muted-foreground">{stat.description}</p>
+                </Card>
+              )
+            })}
+          </div>
+        </Animate>
 
         {categories.length > 0 && (
           <Animate variant="slideUp" delay={0.25}>

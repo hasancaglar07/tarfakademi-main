@@ -8,6 +8,7 @@ import { ArrowRight } from 'lucide-react'
 import Link from 'next/link'
 import Image from 'next/image'
 import { Animate, StaggerContainer, StaggerItem, AnimatedCard } from '@/components/ui/animate'
+import { getDefaultImage, resolveImageSrc } from '@/lib/images'
 
 interface BlogPost {
   id: number
@@ -34,14 +35,6 @@ interface BlogSectionProps {
   locale: string
   posts: BlogPost[]
   categories?: BlogCategory[]
-}
-
-const DEFAULT_BLOG_IMAGE = '/img/tarf.png'
-
-const getPostImage = (post: BlogPost) => {
-  return post.featured_image && post.featured_image.trim() !== ''
-    ? post.featured_image
-    : DEFAULT_BLOG_IMAGE
 }
 
 const defaultContent = {
@@ -91,7 +84,7 @@ export function BlogSection({ locale, posts, categories = [] }: BlogSectionProps
   )
 
   const renderPostGrid = (filteredPosts: BlogPost[]) => (
-    <StaggerContainer className="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
+    <StaggerContainer className="grid gap-6 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
       {filteredPosts.map((post) => (
         <StaggerItem key={post.id}>
           <AnimatedCard className="h-full">
@@ -99,7 +92,7 @@ export function BlogSection({ locale, posts, categories = [] }: BlogSectionProps
           {/* Image */}
           <div className="relative h-48 w-full overflow-hidden rounded-t-lg bg-muted">
             <Image
-              src={getPostImage(post)}
+              src={resolveImageSrc(post.featured_image, getDefaultImage())}
               alt={post.title}
               fill
               className={`transition-transform duration-500 ${
