@@ -37,7 +37,7 @@ const marqueeVariants = {
       x: {
         repeat: Infinity,
         duration: 32,
-        ease: 'linear',
+        ease: 'linear' as const,
       },
     },
   },
@@ -50,7 +50,7 @@ const shimmerVariants = {
       backgroundPosition: {
         repeat: Infinity,
         duration: 10,
-        ease: 'linear',
+        ease: 'linear' as const,
       },
     },
   },
@@ -110,7 +110,7 @@ export function BrandMarquee({ locale, variant = 'default' }: { locale: string; 
   )
 }
 
-function MarqueeRow({ logos }: { logos: typeof logos }) {
+function MarqueeRow({ logos }: { logos: Array<{ src: any; alt: string }> }) {
   return (
     <div
       className="overflow-hidden"
