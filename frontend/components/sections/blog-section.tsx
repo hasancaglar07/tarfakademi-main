@@ -6,9 +6,7 @@ import { Badge } from '@/components/ui/badge'
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs'
 import { ArrowRight } from 'lucide-react'
 import Link from 'next/link'
-import Image from 'next/image'
 import { Animate, StaggerContainer, StaggerItem, AnimatedCard } from '@/components/ui/animate'
-import { getDefaultImage, resolveImageSrc } from '@/lib/images'
 
 interface BlogPost {
   id: number
@@ -88,40 +86,30 @@ export function BlogSection({ locale, posts, categories = [] }: BlogSectionProps
       {filteredPosts.map((post) => (
         <StaggerItem key={post.id}>
           <AnimatedCard className="h-full">
-            <Card className="group hover:shadow-xl transition-all duration-300 h-full flex flex-col">
-          {/* Image */}
-          <div className="relative h-48 w-full overflow-hidden rounded-t-lg bg-muted">
-            <Image
-              src={resolveImageSrc(post.featured_image, getDefaultImage())}
-              alt={post.title}
-              fill
-              className="object-contain p-6 transition-transform duration-500"
-            />
-          </div>
+            <Card className="group relative h-full overflow-hidden border border-border/60 bg-gradient-to-b from-muted/60 via-background to-background hover:shadow-xl transition-all duration-300 flex flex-col">
+              <CardHeader className="flex-1 space-y-3">
+                {post.category && (
+                  <Badge variant="secondary" className="w-fit">
+                    {post.category.name}
+                  </Badge>
+                )}
+                <CardTitle className="line-clamp-2 group-hover:text-primary transition-colors">
+                  <Link href={`/${locale}/blog/${post.slug}`}>
+                    {post.title}
+                  </Link>
+                </CardTitle>
+              </CardHeader>
 
-          <CardHeader>
-            {post.category && (
-              <Badge variant="secondary" className="w-fit mb-2">
-                {post.category.name}
-              </Badge>
-            )}
-            <CardTitle className="line-clamp-2 group-hover:text-primary transition-colors">
-              <Link href={`/${locale}/blog/${post.slug}`}>
-                {post.title}
-              </Link>
-            </CardTitle>
-          </CardHeader>
-
-          <CardContent>
-            <p className="text-muted-foreground line-clamp-3 mb-4">
-              {post.excerpt}
-            </p>
-            <Button variant="ghost" size="sm" className="group/btn p-0 h-auto" asChild>
-              <Link href={`/${locale}/blog/${post.slug}`}>
-                {content.read_more}
-                <ArrowRight className="ml-2 h-4 w-4 transition-transform group-hover/btn:translate-x-1" />
-              </Link>
-            </Button>
+              <CardContent className="pt-0 mt-auto">
+                <p className="text-muted-foreground line-clamp-3 mb-4">
+                  {post.excerpt}
+                </p>
+                <Button variant="ghost" size="sm" className="group/btn p-0 h-auto" asChild>
+                  <Link href={`/${locale}/blog/${post.slug}`}>
+                    {content.read_more}
+                    <ArrowRight className="ml-2 h-4 w-4 transition-transform group-hover/btn:translate-x-1" />
+                  </Link>
+                </Button>
               </CardContent>
             </Card>
           </AnimatedCard>
