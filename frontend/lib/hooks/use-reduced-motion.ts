@@ -35,16 +35,20 @@ export function useShouldReduceMotion(maxViewportWidth = 768) {
     }
 
     const reducedMotionQuery = window.matchMedia('(prefers-reduced-motion: reduce)')
-    const viewportQuery = window.matchMedia(`(max-width: ${maxViewportWidth}px)`)
+    const viewportQuery =
+      typeof maxViewportWidth === 'number' && maxViewportWidth > 0
+        ? window.matchMedia(`(max-width: ${maxViewportWidth}px)`)
+        : null
 
     const updatePreference = () => {
-      setShouldReduceMotion(reducedMotionQuery.matches || viewportQuery.matches)
+      const viewportMatches = viewportQuery?.matches ?? false
+      setShouldReduceMotion(reducedMotionQuery.matches || viewportMatches)
     }
 
     updatePreference()
 
     const detachReducedMotion = attachListener(reducedMotionQuery, updatePreference)
-    const detachViewport = attachListener(viewportQuery, updatePreference)
+    const detachViewport = viewportQuery ? attachListener(viewportQuery, updatePreference) : noop
 
     return () => {
       detachReducedMotion()

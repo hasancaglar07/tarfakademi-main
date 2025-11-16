@@ -114,7 +114,7 @@ export function EventsCarousel({ locale, events }: EventsCarouselProps) {
 
   const scrollRight = () => {
     if (canScrollRight) {
-      setCurrentIndex(prev => Math.min(events.length - itemsToShow, prev + 1))
+      setCurrentIndex(prev => Math.min(maxIndex, prev + 1))
     }
   }
 

@@ -60,7 +60,7 @@ const shimmerVariants = {
 type BrandMarqueeVariant = 'default' | 'overlay'
 
 export function BrandMarquee({ locale, variant = 'default' }: { locale: string; variant?: BrandMarqueeVariant }) {
-  const shouldReduceMotion = useShouldReduceMotion()
+  const shouldReduceMotion = useShouldReduceMotion(0)
   const displayLogos = shouldReduceMotion ? logos : [...logos, ...logos]
 
   const helper =
