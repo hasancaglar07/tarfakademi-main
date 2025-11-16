@@ -1,6 +1,6 @@
 'use client'
 
-import Image from 'next/image'
+import Image, { type StaticImageData } from 'next/image'
 import { motion } from 'framer-motion'
 import logo1 from '@/assets/1.png'
 import logo2 from '@/assets/2.png'
@@ -110,7 +110,7 @@ export function BrandMarquee({ locale, variant = 'default' }: { locale: string; 
   )
 }
 
-function MarqueeRow({ logos }: { logos: Array<{ src: any; alt: string }> }) {
+function MarqueeRow({ logos }: { logos: Array<{ src: StaticImageData; alt: string }> }) {
   return (
     <div
       className="overflow-hidden"
