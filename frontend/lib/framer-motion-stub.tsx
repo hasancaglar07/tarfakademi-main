@@ -1,6 +1,6 @@
-import { createElement, forwardRef, type PropsWithChildren } from 'react'
+import { createElement, forwardRef, type PropsWithChildren, type ReactNode } from 'react'
 
-type MotionProps = Record<string, unknown>
+type MotionProps = Record<string, unknown> & { children?: ReactNode }
 
 const animationKeys = new Set([
   'initial',
