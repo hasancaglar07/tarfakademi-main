@@ -10,6 +10,7 @@ import { useEffect, useState } from 'react'
 import { Animate, AnimatedCard } from '@/components/ui/animate'
 import { motion } from 'framer-motion'
 import { useShouldReduceMotion } from '@/lib/hooks/use-reduced-motion'
+import { getDefaultImage, resolveImageSrc } from '@/lib/images'
 
 interface Event {
   id: number
@@ -237,7 +238,7 @@ function EventCard({
           <div className="relative h-48 overflow-hidden rounded-t-lg">
             {event.featured_image ? (
               <Image
-                src={event.featured_image}
+                src={resolveImageSrc(event.featured_image, getDefaultImage())}
                 alt={event.title}
                 fill
                 className="object-cover transition-transform duration-500 group-hover:scale-110"

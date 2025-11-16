@@ -6,6 +6,7 @@ import { ArrowRight } from 'lucide-react'
 import Link from 'next/link'
 import Image from 'next/image'
 import { useState } from 'react'
+import { getDefaultImage, resolveImageSrc } from '@/lib/images'
 
 interface Service {
   id: number
@@ -116,7 +117,7 @@ export function ServicesTabs({ locale, services }: ServicesTabsProps) {
                     </div>
                   ) : service.featured_image ? (
                     <Image
-                      src={service.featured_image}
+                      src={resolveImageSrc(service.featured_image, getDefaultImage())}
                       alt={service.title}
                       fill
                       className="object-cover transition-transform duration-500 group-hover:scale-110"

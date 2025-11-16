@@ -30,32 +30,6 @@ const logos = [
   { src: logo12, alt: 'TARF partner 12' },
 ]
 
-const marqueeVariants = {
-  animate: {
-    x: ['0%', '-50%'],
-    transition: {
-      x: {
-        repeat: Infinity,
-        duration: 32,
-        ease: 'linear' as const,
-      },
-    },
-  },
-}
-
-const shimmerVariants = {
-  animate: {
-    backgroundPosition: ['0% 50%', '100% 50%'],
-    transition: {
-      backgroundPosition: {
-        repeat: Infinity,
-        duration: 10,
-        ease: 'linear' as const,
-      },
-    },
-  },
-}
-
 type BrandMarqueeVariant = 'default' | 'overlay'
 
 export function BrandMarquee({ locale, variant = 'default' }: { locale: string; variant?: BrandMarqueeVariant }) {
@@ -105,8 +79,13 @@ export function BrandMarquee({ locale, variant = 'default' }: { locale: string; 
           ) : (
             <motion.div
               className="pointer-events-none absolute inset-0 rounded-[inherit] bg-[linear-gradient(115deg,rgba(255,255,255,0.52),rgba(255,255,255,0.18),rgba(255,255,255,0.52))]"
-              variants={shimmerVariants}
-              animate="animate"
+              animate={{ backgroundPosition: ['0% 50%', '100% 50%'] }}
+              transition={{
+                repeat: Infinity,
+                repeatType: 'mirror',
+                duration: 10,
+                ease: 'linear',
+              }}
             />
           )}
           <MarqueeRow logos={displayLogos} shouldReduceMotion={shouldReduceMotion} />
@@ -145,8 +124,13 @@ function MarqueeRow({
     >
       <motion.div
         className="flex min-w-[200%] items-center gap-10 px-8"
-        variants={marqueeVariants}
-        animate="animate"
+        animate={{ x: ['0%', '-50%'] }}
+        transition={{
+          repeat: Infinity,
+          repeatType: 'loop',
+          duration: 16,
+          ease: 'linear',
+        }}
       >
         {logos.map((logo, index) => (
           <LogoCard key={index} logo={logo} />
