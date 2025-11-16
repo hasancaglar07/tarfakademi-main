@@ -20,6 +20,13 @@ const nextConfig = {
       },
     ],
   },
+  // API olmadan build yapabilmek için
+  // Tüm sayfaları dynamic rendering'e zorla
+  experimental: {
+    isrMemoryCacheSize: 0,
+  },
+  // Veya export komutunu devre dışı bırak
+  output: 'standalone',
 }
 
 module.exports = nextConfig
