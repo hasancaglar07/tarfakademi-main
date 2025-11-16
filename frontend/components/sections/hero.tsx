@@ -278,7 +278,9 @@ export function Hero({ locale, data }: HeroProps) {
                         <p className="text-xs uppercase tracking-[0.4em] text-muted-foreground">
                           {locale === 'tr' ? 'TARF Ekosistemi' : locale === 'ar' ? 'نظام TARF' : 'TARF Ecosystem'}
                         </p>
-                        <p className="text-lg font-semibold text-foreground">{currentHeroVideo?.title}</p>
+                        <p className="text-lg font-semibold text-foreground leading-snug line-clamp-2 min-h-[3.1rem]">
+                          {currentHeroVideo?.title}
+                        </p>
                       </div>
                       {hasMultipleHeroVideos && (
                         <div className="flex items-center gap-3">
