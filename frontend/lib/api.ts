@@ -52,6 +52,7 @@ export interface Post {
   slug: string;
   excerpt: string;
   content?: string;
+  content_raw?: string | null;
   featured_image: string | null;
   youtube_url?: string | null;
   youtube_video_id?: string | null;

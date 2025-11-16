@@ -58,6 +58,25 @@ if (! function_exists('get_translation_with_fallback')) {
     }
 }
 
+if (! function_exists('render_rich_content')) {
+    /**
+     * Render rich content (HTML or TipTap JSON) using Filament's renderer.
+     */
+    function render_rich_content(string | array | null $content): ?string
+    {
+        if (blank($content)) {
+            return null;
+        }
+
+        return \Filament\Forms\Components\RichEditor\RichContentRenderer::make($content)
+            ->customBlocks([
+                \App\Filament\Forms\Components\RichEditor\RichContentCustomBlocks\HeroBlock::class,
+                \App\Filament\Forms\Components\RichEditor\RichContentCustomBlocks\CalloutBlock::class,
+            ])
+            ->toHtml();
+    }
+}
+
 if (! function_exists('is_event_upcoming')) {
     /**
      * Check if an event is upcoming (event date is in the future).

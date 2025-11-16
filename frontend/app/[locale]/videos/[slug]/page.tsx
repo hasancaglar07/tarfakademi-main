@@ -144,8 +144,8 @@ export default async function VideoPage({
 
                     {/* Description */}
                     <div 
-                      className="prose prose-lg dark:prose-invert max-w-none"
-                      dangerouslySetInnerHTML={{ __html: video.content || video.excerpt }}
+                      className="prose prose-lg dark:prose-invert max-w-none text-foreground"
+                      dangerouslySetInnerHTML={{ __html: video.content ?? video.content_raw ?? video.excerpt ?? '' }}
                     />
                   </Card>
                 </Animate>

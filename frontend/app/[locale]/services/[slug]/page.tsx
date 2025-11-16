@@ -110,8 +110,8 @@ export default async function ServiceDetailPage({
           <div className="container py-12 grid gap-8 lg:grid-cols-[2fr_1fr]">
             <Card className="p-8">
               <div
-                className="prose prose-lg dark:prose-invert max-w-none"
-                dangerouslySetInnerHTML={{ __html: service.content || service.excerpt }}
+                className="prose prose-lg dark:prose-invert max-w-none text-foreground"
+                dangerouslySetInnerHTML={{ __html: service.content ?? service.content_raw ?? service.excerpt ?? '' }}
               />
             </Card>
 

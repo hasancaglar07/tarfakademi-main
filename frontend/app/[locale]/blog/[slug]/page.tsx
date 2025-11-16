@@ -138,8 +138,8 @@ export default async function BlogPost({
             <Animate variant="fadeIn" delay={0.3} className="max-w-4xl mx-auto">
               <Card className="p-8 md:p-12">
                 <div
-                  className="prose prose-lg dark:prose-invert max-w-none"
-                  dangerouslySetInnerHTML={{ __html: post.content || post.excerpt }}
+                  className="prose prose-lg dark:prose-invert max-w-none text-foreground"
+                  dangerouslySetInnerHTML={{ __html: post.content ?? post.content_raw ?? post.excerpt ?? '' }}
                 />
               </Card>
             </Animate>

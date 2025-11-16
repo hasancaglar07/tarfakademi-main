@@ -125,8 +125,10 @@ class EventController extends Controller
         ];
 
         if ($includeContent) {
-            $data['content'] = get_translation_with_fallback($event, 'content', $locale);
-            
+            $rawContent = get_translation_with_fallback($event, 'content', $locale);
+            $data['content_raw'] = $rawContent;
+            $data['content'] = render_rich_content($rawContent) ?? $rawContent;
+
             // Include gallery images if available
             if ($event->hasMedia('gallery')) {
                 $data['gallery'] = $event->getMedia('gallery')->map(function ($media) {

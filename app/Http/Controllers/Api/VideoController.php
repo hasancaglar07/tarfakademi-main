@@ -123,7 +123,9 @@ class VideoController extends Controller
         ];
 
         if ($includeContent) {
-            $data['content'] = get_translation_with_fallback($video, 'content', $locale);
+            $rawContent = get_translation_with_fallback($video, 'content', $locale);
+            $data['content_raw'] = $rawContent;
+            $data['content'] = render_rich_content($rawContent) ?? $rawContent;
         }
 
         return $data;

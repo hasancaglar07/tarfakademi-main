@@ -11,6 +11,7 @@ import { BrandMarquee } from '@/components/sections/brand-marquee'
 interface HeroProps {
   locale: string
   data?: {
+    eyebrow?: string | null
     title?: string | null
     subtitle?: string | null
     primary_cta_label?: string | null

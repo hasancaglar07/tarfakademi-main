@@ -109,8 +109,10 @@ class ServiceController extends Controller
         ];
 
         if ($includeContent) {
-            $data['content'] = get_translation_with_fallback($service, 'content', $locale);
-            
+            $rawContent = get_translation_with_fallback($service, 'content', $locale);
+            $data['content_raw'] = $rawContent;
+            $data['content'] = render_rich_content($rawContent) ?? $rawContent;
+
             // Include gallery images if available
             if ($service->hasMedia('gallery')) {
                 $data['gallery'] = $service->getMedia('gallery')->map(function ($media) {

@@ -140,8 +140,8 @@ export default async function PodcastDetailPage({
             <Animate variant="fadeIn" delay={0.3}>
               <Card className="p-8 md:p-12">
                 <div
-                  className="prose prose-lg dark:prose-invert max-w-none"
-                  dangerouslySetInnerHTML={{ __html: podcast.content || podcast.excerpt }}
+                  className="prose prose-lg dark:prose-invert max-w-none text-foreground"
+                  dangerouslySetInnerHTML={{ __html: podcast.content ?? podcast.content_raw ?? podcast.excerpt ?? '' }}
                 />
               </Card>
             </Animate>

@@ -153,8 +153,8 @@ export default async function EventDetailPage({
             <Animate variant="fadeIn" delay={0.4}>
               <Card className="p-8 md:p-12">
                 <div
-                  className="prose prose-lg dark:prose-invert max-w-none"
-                  dangerouslySetInnerHTML={{ __html: event.content || event.excerpt }}
+                  className="prose prose-lg dark:prose-invert max-w-none text-foreground"
+                  dangerouslySetInnerHTML={{ __html: event.content ?? event.content_raw ?? event.excerpt ?? '' }}
                 />
               </Card>
             </Animate>
