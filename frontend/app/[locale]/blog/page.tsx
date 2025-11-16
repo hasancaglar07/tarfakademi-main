@@ -73,7 +73,7 @@ export default async function BlogPage({
                     <Card className="overflow-hidden hover:shadow-lg transition-all h-full flex flex-col">
                   <div className="relative h-48 w-full bg-muted overflow-hidden">
                     <Image
-                      src={getDefaultImage()}
+                      src={resolveImageSrc(post.featured_image, getDefaultImage())}
                       alt={post.title}
                       fill
                       className="object-contain p-6"
