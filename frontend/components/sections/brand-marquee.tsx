@@ -2,7 +2,6 @@
 
 import Image, { type StaticImageData } from 'next/image'
 import { motion } from 'framer-motion'
-import { useShouldReduceMotion } from '@/lib/hooks/use-reduced-motion'
 import logo1 from '@/assets/1.png'
 import logo2 from '@/assets/2.png'
 import logo3 from '@/assets/3.png'
@@ -60,7 +59,8 @@ const shimmerVariants = {
 type BrandMarqueeVariant = 'default' | 'overlay'
 
 export function BrandMarquee({ locale, variant = 'default' }: { locale: string; variant?: BrandMarqueeVariant }) {
-  const shouldReduceMotion = useShouldReduceMotion(0)
+  // Anasayfadeki kayan logolar için animasyonu her zaman açık tut
+  const shouldReduceMotion = false
   const displayLogos = shouldReduceMotion ? logos : [...logos, ...logos]
 
   const helper =

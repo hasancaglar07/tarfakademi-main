@@ -36,6 +36,14 @@ interface BlogSectionProps {
   categories?: BlogCategory[]
 }
 
+const DEFAULT_BLOG_IMAGE = '/img/tarf.png'
+
+const getPostImage = (post: BlogPost) => {
+  return post.featured_image && post.featured_image.trim() !== ''
+    ? post.featured_image
+    : DEFAULT_BLOG_IMAGE
+}
+
 const defaultContent = {
   tr: {
     title: 'Düşünce ve Araştırma',
@@ -89,16 +97,18 @@ export function BlogSection({ locale, posts, categories = [] }: BlogSectionProps
           <AnimatedCard className="h-full">
             <Card className="group hover:shadow-xl transition-all duration-300 h-full flex flex-col">
           {/* Image */}
-          {post.featured_image && (
-            <div className="relative h-48 w-full overflow-hidden rounded-t-lg">
-              <Image
-                src={post.featured_image}
-                alt={post.title}
-                fill
-                className="object-cover transition-transform duration-500 group-hover:scale-110"
-              />
-            </div>
-          )}
+          <div className="relative h-48 w-full overflow-hidden rounded-t-lg bg-muted">
+            <Image
+              src={getPostImage(post)}
+              alt={post.title}
+              fill
+              className={`transition-transform duration-500 ${
+                post.featured_image && post.featured_image.trim() !== ''
+                  ? 'object-cover group-hover:scale-110'
+                  : 'object-contain p-6'
+              }`}
+            />
+          </div>
 
           <CardHeader>
             {post.category && (

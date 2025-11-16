@@ -1,6 +1,7 @@
 import { Card } from '@/components/ui/card'
 import { Badge } from '@/components/ui/badge'
 import { Target, Compass, Users2, Lightbulb } from 'lucide-react'
+import { Animate, StaggerContainer, StaggerItem } from '@/components/ui/animate'
 
 interface ValuePillarsProps {
   locale: string
@@ -99,46 +100,49 @@ export function ValuePillars({ locale }: ValuePillarsProps) {
   return (
     <section className="bg-secondary/50 py-16 lg:py-20">
       <div className="container space-y-10">
-        <div className="text-center space-y-4 max-w-3xl mx-auto">
-          <Badge variant="secondary" className="mx-auto w-fit">
-            TARF · 2025 Gündemi
-          </Badge>
-          <h2 className="text-3xl font-bold text-foreground">
-            {content.title}
-          </h2>
-          <p className="text-muted-foreground text-lg">
-            {content.subtitle}
-          </p>
-        </div>
+        <Animate variant="fadeIn">
+          <div className="text-center space-y-4 max-w-3xl mx-auto">
+            <Badge variant="secondary" className="mx-auto w-fit">
+              TARF · 2025 Gündemi
+            </Badge>
+            <h2 className="text-3xl font-bold text-foreground">
+              {content.title}
+            </h2>
+            <p className="text-muted-foreground text-lg">
+              {content.subtitle}
+            </p>
+          </div>
+        </Animate>
 
-        <div className="grid gap-6 md:grid-cols-2">
+        <StaggerContainer className="grid gap-6 md:grid-cols-2">
           {content.items.map((item, index) => {
             const Icon = item.icon
             return (
-              <Card
-                key={item.title}
-                className="group relative overflow-hidden border border-border/60 bg-card/90 p-6 shadow-sm transition-all hover:-translate-y-1 hover:border-primary"
-              >
-                <div className="flex items-center gap-4">
-                  <div className="rounded-2xl bg-primary/10 p-3 text-primary">
-                    <Icon className="h-6 w-6" />
+              <StaggerItem key={item.title}>
+                <Card
+                  className="group relative overflow-hidden border border-border/60 bg-card/90 p-6 shadow-sm transition-all hover:-translate-y-1 hover:border-primary"
+                >
+                  <div className="flex items-center gap-4">
+                    <div className="rounded-2xl bg-primary/10 p-3 text-primary">
+                      <Icon className="h-6 w-6" />
+                    </div>
+                    <div>
+                      <p className="text-xs uppercase tracking-wide text-muted-foreground">0{index + 1}</p>
+                      <h3 className="text-xl font-semibold text-foreground">{item.title}</h3>
+                    </div>
                   </div>
-                  <div>
-                    <p className="text-xs uppercase tracking-wide text-muted-foreground">0{index + 1}</p>
-                    <h3 className="text-xl font-semibold text-foreground">{item.title}</h3>
+                  <p className="mt-4 text-sm text-muted-foreground leading-relaxed">
+                    {item.description}
+                  </p>
+                  <div className="mt-6 flex items-center gap-2 text-xs font-semibold uppercase tracking-[0.3em] text-primary">
+                    <span>STRATEGY</span>
+                    <span className="h-px flex-1 bg-primary/40" />
                   </div>
-                </div>
-                <p className="mt-4 text-sm text-muted-foreground leading-relaxed">
-                  {item.description}
-                </p>
-                <div className="mt-6 flex items-center gap-2 text-xs font-semibold uppercase tracking-[0.3em] text-primary">
-                  <span>STRATEGY</span>
-                  <span className="h-px flex-1 bg-primary/40" />
-                </div>
-              </Card>
+                </Card>
+              </StaggerItem>
             )
           })}
-        </div>
+        </StaggerContainer>
       </div>
     </section>
   )

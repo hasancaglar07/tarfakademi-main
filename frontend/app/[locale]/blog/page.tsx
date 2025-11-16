@@ -70,16 +70,14 @@ export default async function BlogPage({
                 <StaggerItem key={post.id}>
                   <AnimatedCard className="h-full">
                     <Card className="overflow-hidden hover:shadow-lg transition-all h-full flex flex-col">
-                  {post.featured_image && (
-                    <div className="relative h-48 w-full">
-                      <Image
-                        src={post.featured_image}
-                        alt={post.title}
-                        fill
-                        className="object-cover"
-                      />
-                    </div>
-                  )}
+                  <div className="relative h-48 w-full bg-muted overflow-hidden">
+                    <Image
+                      src={post.featured_image && post.featured_image.trim() !== '' ? post.featured_image : '/img/tarf.png'}
+                      alt={post.title}
+                      fill
+                      className={post.featured_image && post.featured_image.trim() !== '' ? 'object-cover' : 'object-contain p-6'}
+                    />
+                  </div>
                   <CardHeader>
                     <div className="flex flex-wrap gap-2 mb-2">
                       {post.category && (
