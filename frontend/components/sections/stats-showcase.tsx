@@ -1,7 +1,7 @@
 import { Card } from '@/components/ui/card'
 import { Badge } from '@/components/ui/badge'
-import { Target, CalendarDays, Video, Mic2, BookOpen } from 'lucide-react'
 import { Animate } from '@/components/ui/animate'
+import Image from 'next/image'
 
 interface StatsShowcaseProps {
   locale: string
@@ -24,41 +24,49 @@ export function StatsShowcase({
 }: StatsShowcaseProps) {
   const stats = [
     {
-      icon: BookOpen,
+      iconKey: 'programs',
       label: locale === 'tr' ? 'Eğitim Programı' : locale === 'ar' ? 'البرامج التدريبية' : 'Training Programs',
       value: servicesCount,
       description:
         locale === 'tr' ? 'Kurumlara özel içerikler' : locale === 'ar' ? 'محتوى مخصص للمنظمات' : 'Custom programs for organisations',
     },
     {
-      icon: CalendarDays,
+      iconKey: 'events',
       label: locale === 'tr' ? 'Etkinlik' : locale === 'ar' ? 'الفعاليات' : 'Events',
       value: eventsCount,
       description:
         locale === 'tr' ? 'Seminer ve zirveler' : locale === 'ar' ? 'الندوات والقمم' : 'Seminars & summits',
     },
     {
-      icon: Target,
+      iconKey: 'blog',
       label: locale === 'tr' ? 'Blog Yazısı' : locale === 'ar' ? 'مقالات' : 'Blog Posts',
       value: blogCount,
       description:
         locale === 'tr' ? 'Güncel içerikler' : locale === 'ar' ? 'محتوى حديث' : 'Fresh insights',
     },
     {
-      icon: Video,
+      iconKey: 'videos',
       label: locale === 'tr' ? 'Video Kütüphanesi' : locale === 'ar' ? 'الفيديوهات' : 'Video Library',
       value: videosCount,
       description:
         locale === 'tr' ? 'İlham veren söyleşiler' : locale === 'ar' ? 'حوارات ملهمة' : 'Inspiring talks',
     },
     {
-      icon: Mic2,
+      iconKey: 'podcasts',
       label: locale === 'tr' ? 'Podcast' : locale === 'ar' ? 'البودكاست' : 'Podcasts',
       value: podcastsCount,
       description:
         locale === 'tr' ? 'Uzman görüşleri' : locale === 'ar' ? 'آراء الخبراء' : 'Expert opinions',
     },
   ]
+
+  const iconMap: Record<string, string> = {
+    programs: '/img/icons/stat-programs.png',
+    events: '/img/icons/stat-events.png',
+    blog: '/img/icons/stat-blog.png',
+    videos: '/img/icons/stat-videos.png',
+    podcasts: '/img/icons/stat-podcasts.png',
+  }
 
   return (
     <section className="py-16 bg-gradient-to-b from-primary/10 via-background to-background">
@@ -88,7 +96,7 @@ export function StatsShowcase({
         <Animate variant="slideUp" delay={0.1}>
           <div className="grid gap-4 md:grid-cols-2 xl:grid-cols-5">
             {stats.map((stat, index) => {
-              const Icon = stat.icon
+              const iconSrc = iconMap[stat.iconKey]
               return (
                 <Card
                   key={stat.label}
@@ -97,7 +105,13 @@ export function StatsShowcase({
                 >
                   <div className="flex items-center gap-3 mb-4">
                     <div className="rounded-2xl bg-primary/10 p-2 text-primary">
-                      <Icon className="h-5 w-5" />
+                      <Image
+                        src={iconSrc}
+                        alt={stat.label}
+                        width={24}
+                        height={24}
+                        className="h-6 w-6 object-contain"
+                      />
                     </div>
                     <div className="text-xs uppercase tracking-wide text-muted-foreground">
                       {stat.label}

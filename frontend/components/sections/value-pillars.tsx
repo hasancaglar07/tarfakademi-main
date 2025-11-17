@@ -1,11 +1,18 @@
 import { Card } from '@/components/ui/card'
 import { Badge } from '@/components/ui/badge'
-import { Target, Compass, Users2, Lightbulb } from 'lucide-react'
 import { Animate, StaggerContainer, StaggerItem } from '@/components/ui/animate'
+import Image from 'next/image'
 
 interface ValuePillarsProps {
   locale: string
 }
+
+const pillarIcons = {
+  policy: '/img/icons/pillar-policy.png',
+  digital: '/img/icons/pillar-digital.png',
+  academy: '/img/icons/pillar-academy.png',
+  ecosystem: '/img/icons/pillar-ecosystem.png',
+} as const
 
 const copy = {
   tr: {
@@ -14,25 +21,25 @@ const copy = {
       'Araştırma ve politika üretimini sahadaki eğitim ve girişim hızlandırıcılarıyla buluşturuyoruz. Tek yapmanız gereken etki alanınızı seçmek.',
     items: [
       {
-        icon: Target,
+        iconKey: 'policy',
         title: 'Politika Tasarımı',
         description:
           'Bakanlıklar, belediyeler ve kalkınma ajansları için veri odaklı politika tasarımı ve mevzuat önerileri hazırlıyoruz.',
       },
       {
-        icon: Compass,
+        iconKey: 'digital',
         title: 'Dijital Dönüşüm Laboratuvarı',
         description:
           'Yapay zeka, blokzincir ve iklim teknolojileri odağında prototipler ve regülasyon sand-box programları işletiyoruz.',
       },
       {
-        icon: Users2,
+        iconKey: 'academy',
         title: 'Akademi Programları',
         description:
           'Genç liderler, kamu çalışanları ve özel sektör profesyonelleri için çok dilli eğitim katalogları sunuyoruz.',
       },
       {
-        icon: Lightbulb,
+        iconKey: 'ecosystem',
         title: 'Ekosistem Koalisyonları',
         description:
           'Sivil toplum ve yatırımcı ağlarıyla birlikte bölgesel forumlar, rapor serileri ve medya programları tasarlıyoruz.',
@@ -45,22 +52,22 @@ const copy = {
       'We merge research, policy production and on-the-ground learning + venture accelerators. Simply plug your organisation into the stream.',
     items: [
       {
-        icon: Target,
+        iconKey: 'policy',
         title: 'Policy Design',
         description: 'Data-driven policy notes, reform packages and legislation support for ministries and development agencies.',
       },
       {
-        icon: Compass,
+        iconKey: 'digital',
         title: 'Digital Transformation Lab',
         description: 'Prototyping sandboxes around AI, blockchain and climate-tech with regulatory foresight.',
       },
       {
-        icon: Users2,
+        iconKey: 'academy',
         title: 'Academy Programmes',
         description: 'Multilingual learning tracks for young leaders, civil servants and corporate innovators.',
       },
       {
-        icon: Lightbulb,
+        iconKey: 'ecosystem',
         title: 'Ecosystem Coalitions',
         description: 'Regional forums, report series and media shows delivered with NGOs and investor networks.',
       },
@@ -71,22 +78,22 @@ const copy = {
     subtitle: 'نمزج البحث وصنع السياسات وبرامج التعلم والمسرّعات في منظومة واحدة يمكن لأي مؤسسة الانضمام إليها.',
     items: [
       {
-        icon: Target,
+        iconKey: 'policy',
         title: 'تصميم السياسات',
         description: 'مذكرات سياسات وحزم إصلاح وتشريعات مبنية على البيانات للوزارات والهيئات التنموية.',
       },
       {
-        icon: Compass,
+        iconKey: 'digital',
         title: 'مختبر التحول الرقمي',
         description: 'بيئات اختبار لتقنيات الذكاء الاصطناعي وسلاسل الكتل وتقنيات المناخ مع استشراف تنظيمي.',
       },
       {
-        icon: Users2,
+        iconKey: 'academy',
         title: 'برامج الأكاديمية',
         description: 'مسارات تعلم متعددة اللغات للقادة الشباب والقطاعين العام والخاص.',
       },
       {
-        icon: Lightbulb,
+        iconKey: 'ecosystem',
         title: 'تحالفات المنظومة',
         description: 'منتديات إقليمية وسلاسل تقارير وبرامج إعلامية بالتعاون مع المجتمع المدني وشبكات المستثمرين.',
       },
@@ -116,7 +123,7 @@ export function ValuePillars({ locale }: ValuePillarsProps) {
 
         <StaggerContainer className="grid gap-6 md:grid-cols-2">
           {content.items.map((item, index) => {
-            const Icon = item.icon
+            const iconSrc = pillarIcons[item.iconKey as keyof typeof pillarIcons]
             return (
               <StaggerItem key={item.title}>
                 <Card
@@ -124,7 +131,13 @@ export function ValuePillars({ locale }: ValuePillarsProps) {
                 >
                   <div className="flex items-center gap-4">
                     <div className="rounded-2xl bg-primary/10 p-3 text-primary">
-                      <Icon className="h-6 w-6" />
+                      <Image
+                        src={iconSrc}
+                        alt={item.title}
+                        width={32}
+                        height={32}
+                        className="h-8 w-8 object-contain"
+                      />
                     </div>
                     <div>
                       <p className="text-xs uppercase tracking-wide text-muted-foreground">0{index + 1}</p>
